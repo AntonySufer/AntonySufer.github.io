@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue webpack 单页面,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="一点" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="步骤一 vue-cli开启打包压缩 和后台配合 gzip访问1.首先打开 config/index.js ，找到 build 对象中的 productionGzip ，改成 true2.  打开 productionGzip: true 之前，先要安装依赖 compression-webpack-plugin ，官方推荐的命令是： 123npm install --save-dev compres">
+<meta name="keywords" content="vue webpack 单页面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决vue单页首次加载慢问题">
+<meta property="og:url" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/index.html">
+<meta property="og:site_name" content="一点">
+<meta property="og:description" content="步骤一 vue-cli开启打包压缩 和后台配合 gzip访问1.首先打开 config/index.js ，找到 build 对象中的 productionGzip ，改成 true2.  打开 productionGzip: true 之前，先要安装依赖 compression-webpack-plugin ，官方推荐的命令是： 123npm install --save-dev compres">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/main.png">
+<meta property="og:image" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/cdn.png">
+<meta property="og:image" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/config.png">
+<meta property="og:image" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/exp1.png">
+<meta property="og:image" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/exp2.png">
+<meta property="og:updated_time" content="2019-05-09T03:11:34.595Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决vue单页首次加载慢问题">
+<meta name="twitter:description" content="步骤一 vue-cli开启打包压缩 和后台配合 gzip访问1.首先打开 config/index.js ，找到 build 对象中的 productionGzip ，改成 true2.  打开 productionGzip: true 之前，先要安装依赖 compression-webpack-plugin ，官方推荐的命令是： 123npm install --save-dev compres">
+<meta name="twitter:image" content="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/main.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/">
+
+
+
+
+
+  <title>解决vue单页首次加载慢问题 | 一点</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一点</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://note.yidianwz.com/2018/04/19/解决vue单页首次加载慢问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chatYu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/11.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">解决vue单页首次加载慢问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-19T16:01:33+08:00">
+                2018-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="步骤一-vue-cli开启打包压缩-和后台配合-gzip访问"><a href="#步骤一-vue-cli开启打包压缩-和后台配合-gzip访问" class="headerlink" title="步骤一 vue-cli开启打包压缩 和后台配合 gzip访问"></a>步骤一 vue-cli开启打包压缩 和后台配合 gzip访问</h1><h4 id="1-首先打开-config-index-js-，找到-build-对象中的-productionGzip-，改成-true"><a href="#1-首先打开-config-index-js-，找到-build-对象中的-productionGzip-，改成-true" class="headerlink" title="1.首先打开 config/index.js ，找到 build 对象中的 productionGzip ，改成 true"></a>1.首先打开 config/index.js ，找到 build 对象中的 productionGzip ，改成 true</h4><h4 id="2-打开-productionGzip-true-之前，先要安装依赖-compression-webpack-plugin-，官方推荐的命令是："><a href="#2-打开-productionGzip-true-之前，先要安装依赖-compression-webpack-plugin-，官方推荐的命令是：" class="headerlink" title="2.  打开 productionGzip: true 之前，先要安装依赖 compression-webpack-plugin ，官方推荐的命令是："></a>2.  打开 productionGzip: true 之前，先要安装依赖 compression-webpack-plugin ，官方推荐的命令是：</h4> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev compression-webpack-plugin </span><br><span class="line">//(此处有坑) 如果打包报错，应该是版本问题 ，先卸载之前安装的此插件 ，然后安装低版本 </span><br><span class="line"> npm install --save-dev compression-webpack-plugin@1.1.11</span><br></pre></td></tr></table></figure>
+<h4 id="3-等安装好了，重新打包-npm-run-build-，此时打包的文件会-新增-gz-文件。是不是比原来的js文件小很多呢，之后项目访问的文件就是这个-gz文件-。"><a href="#3-等安装好了，重新打包-npm-run-build-，此时打包的文件会-新增-gz-文件。是不是比原来的js文件小很多呢，之后项目访问的文件就是这个-gz文件-。" class="headerlink" title="3.等安装好了，重新打包 npm run build ，此时打包的文件会 新增  .gz 文件。是不是比原来的js文件小很多呢，之后项目访问的文件就是这个.gz文件 。"></a>3.等安装好了，重新打包 npm run build ，此时打包的文件会 新增  .gz 文件。是不是比原来的js文件小很多呢，之后项目访问的文件就是这个.gz文件 。</h4><h4 id="4-后台nginx开启gzip模式访问，浏览器访问项目，自动会找到-gz-的文件。加载速度明显提高。"><a href="#4-后台nginx开启gzip模式访问，浏览器访问项目，自动会找到-gz-的文件。加载速度明显提高。" class="headerlink" title="4.后台nginx开启gzip模式访问，浏览器访问项目，自动会找到 .gz 的文件。加载速度明显提高。"></a>4.后台nginx开启gzip模式访问，浏览器访问项目，自动会找到 .gz 的文件。加载速度明显提高。</h4><ul>
+<li>开启 nginx gzip ,在 nginx.conf 配置文件中 配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http &#123;  //在 http中配置如下代码，</span><br><span class="line">  </span><br><span class="line">   gzip on;</span><br><span class="line">   gzip_disable &quot;msie6&quot;; </span><br><span class="line">   gzip_vary on; </span><br><span class="line">   gzip_proxied any;</span><br><span class="line">   gzip_comp_level 8; #压缩级别</span><br><span class="line">   gzip_buffers 16 8k;</span><br><span class="line">   #gzip_http_version 1.1;</span><br><span class="line">   gzip_min_length 100; #不压缩临界值</span><br><span class="line">   gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>保存退出  ，并 重启 nginx <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl reload nginx.service  </span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="5-测试访问"><a href="#5-测试访问" class="headerlink" title="5 测试访问"></a>5 测试访问</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I -H &quot;Accept-Encoding: gzip, deflate&quot; &quot;http://xxx.com&quot;  //访问请求中 Content-Encoding: gzip 表示 压缩成功页面，</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同理 访问js，css等 可测试 是否压缩成功.<br><br></p>
+</li>
+</ul>
+<h4 id="6-正式访问项目，此时项目加载速度明显提升"><a href="#6-正式访问项目，此时项目加载速度明显提升" class="headerlink" title="6 正式访问项目，此时项目加载速度明显提升"></a>6 正式访问项目，此时项目加载速度明显提升</h4><h1 id="步骤二-webpack来打包vue项目，vendor-js过大问题解决"><a href="#步骤二-webpack来打包vue项目，vendor-js过大问题解决" class="headerlink" title="步骤二 webpack来打包vue项目，vendor.js过大问题解决"></a>步骤二 webpack来打包vue项目，vendor.js过大问题解决</h1><h4 id="1-造成过大的原因是因为在main-js导入第三库太多时-webpack合并js时生成了vendor-js-我们习惯把第三方库放在vendor里面-造成的-如下图在main-js引用element-ui等第三方库。后果就是你的服务器端的js文件越大则用户加载页面的时间会越长-因为所需下载js的时间越久"><a href="#1-造成过大的原因是因为在main-js导入第三库太多时-webpack合并js时生成了vendor-js-我们习惯把第三方库放在vendor里面-造成的-如下图在main-js引用element-ui等第三方库。后果就是你的服务器端的js文件越大则用户加载页面的时间会越长-因为所需下载js的时间越久" class="headerlink" title="1.造成过大的原因是因为在main.js导入第三库太多时,webpack合并js时生成了vendor.js(我们习惯把第三方库放在vendor里面)造成的.如下图在main.js引用element-ui等第三方库。后果就是你的服务器端的js文件越大则用户加载页面的时间会越长(因为所需下载js的时间越久)"></a>1.造成过大的原因是因为在main.js导入第三库太多时,webpack合并js时生成了vendor.js(我们习惯把第三方库放在vendor里面)造成的.如下图在main.js引用element-ui等第三方库。后果就是你的服务器端的js文件越大则用户加载页面的时间会越长(因为所需下载js的时间越久)</h4><p><img src="/2018/04/19/解决vue单页首次加载慢问题/main.png"> <br></p>
+<h4 id="2-解决方案-采用cdn加速去从别的服务器上加载第三方库而非自己的服务器，这样就会快很多-并且能节省自己服务器的带宽。"><a href="#2-解决方案-采用cdn加速去从别的服务器上加载第三方库而非自己的服务器，这样就会快很多-并且能节省自己服务器的带宽。" class="headerlink" title="2.解决方案:采用cdn加速去从别的服务器上加载第三方库而非自己的服务器，这样就会快很多.并且能节省自己服务器的带宽。"></a>2.解决方案:采用cdn加速去从别的服务器上加载第三方库而非自己的服务器，这样就会快很多.并且能节省自己服务器的带宽。</h4><ul>
+<li>选用unpkg来作为第三方提供  <a href="https://unpkg.com" target="_blank" rel="noopener">https://unpkg.com</a> 或者 <a href="https://www.bootcdn.cn/" target="_blank" rel="noopener">https://www.bootcdn.cn/</a>  </li>
+<li>如我想要axios包则输入网址为 <a href="https://unpkg.com/axios/" target="_blank" rel="noopener">https://unpkg.com/axios/</a> (末尾加斜杠代表你要查询该库的所有版本列表)</li>
+<li>在index.html中 将你所需的第三方库的链接加载进来,如下图:<br><img src="/2018/04/19/解决vue单页首次加载慢问题/cdn.png"> <br></li>
+<li>在webpack.base.conf 中添加 externals 来告诉webpack我们这些第三方库不需要打包 如下图<br><img src="/2018/04/19/解决vue单页首次加载慢问题/config.png"> <br></li>
+<li><p>在 主文件main.js 或者其他 js 修改引用这些配置的第三方插件 ，如图：<br><img src="/2018/04/19/解决vue单页首次加载慢问题/exp1.png"> <br><br><img src="/2018/04/19/解决vue单页首次加载慢问题/exp2.png"> <br></p>
+</li>
+<li><p>执行npm run build 来验证是否减小了。自己测试项目   vendor.js 由原来的 600k，减少到 100k</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="chatYu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="chatYu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue-webpack-单页面/" rel="tag"># vue webpack 单页面</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/11/node-express主文件实现上传api/" rel="next" title="node-express主文件实现上传 视频 和图片 保存">
+                <i class="fa fa-chevron-left"></i> node-express主文件实现上传 视频 和图片 保存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/css常用样式/" rel="prev" title="自己css常用样式">
+                自己css常用样式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/11.jpg" alt="chatYu">
+            
+              <p class="site-author-name" itemprop="name">chatYu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AntonySufer" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="dian_note@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#步骤一-vue-cli开启打包压缩-和后台配合-gzip访问"><span class="nav-number">1.</span> <span class="nav-text">步骤一 vue-cli开启打包压缩 和后台配合 gzip访问</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-首先打开-config-index-js-，找到-build-对象中的-productionGzip-，改成-true"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1.首先打开 config/index.js ，找到 build 对象中的 productionGzip ，改成 true</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-打开-productionGzip-true-之前，先要安装依赖-compression-webpack-plugin-，官方推荐的命令是："><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2.  打开 productionGzip: true 之前，先要安装依赖 compression-webpack-plugin ，官方推荐的命令是：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-等安装好了，重新打包-npm-run-build-，此时打包的文件会-新增-gz-文件。是不是比原来的js文件小很多呢，之后项目访问的文件就是这个-gz文件-。"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3.等安装好了，重新打包 npm run build ，此时打包的文件会 新增  .gz 文件。是不是比原来的js文件小很多呢，之后项目访问的文件就是这个.gz文件 。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-后台nginx开启gzip模式访问，浏览器访问项目，自动会找到-gz-的文件。加载速度明显提高。"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4.后台nginx开启gzip模式访问，浏览器访问项目，自动会找到 .gz 的文件。加载速度明显提高。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-测试访问"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5 测试访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-正式访问项目，此时项目加载速度明显提升"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6 正式访问项目，此时项目加载速度明显提升</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#步骤二-webpack来打包vue项目，vendor-js过大问题解决"><span class="nav-number">2.</span> <span class="nav-text">步骤二 webpack来打包vue项目，vendor.js过大问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-造成过大的原因是因为在main-js导入第三库太多时-webpack合并js时生成了vendor-js-我们习惯把第三方库放在vendor里面-造成的-如下图在main-js引用element-ui等第三方库。后果就是你的服务器端的js文件越大则用户加载页面的时间会越长-因为所需下载js的时间越久"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1.造成过大的原因是因为在main.js导入第三库太多时,webpack合并js时生成了vendor.js(我们习惯把第三方库放在vendor里面)造成的.如下图在main.js引用element-ui等第三方库。后果就是你的服务器端的js文件越大则用户加载页面的时间会越长(因为所需下载js的时间越久)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-解决方案-采用cdn加速去从别的服务器上加载第三方库而非自己的服务器，这样就会快很多-并且能节省自己服务器的带宽。"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2.解决方案:采用cdn加速去从别的服务器上加载第三方库而非自己的服务器，这样就会快很多.并且能节省自己服务器的带宽。</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chatYu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+ 
+</body>
+</html>

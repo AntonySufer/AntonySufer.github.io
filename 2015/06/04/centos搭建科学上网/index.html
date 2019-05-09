@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="一点" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="搭建 Shadowsocks 服务安装组件123$ yum install m2crypto python-setuptools$ easy_install pip$ pip install shadowsocks 安装完成后配置服务器参数1$ vi  /etc/shadowsocks.json 写入如下配置:12345678910111213141516171819202122232425$ v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos搭建科学上网">
+<meta property="og:url" content="http://note.yidianwz.com/2015/06/04/centos搭建科学上网/index.html">
+<meta property="og:site_name" content="一点">
+<meta property="og:description" content="搭建 Shadowsocks 服务安装组件123$ yum install m2crypto python-setuptools$ easy_install pip$ pip install shadowsocks 安装完成后配置服务器参数1$ vi  /etc/shadowsocks.json 写入如下配置:12345678910111213141516171819202122232425$ v">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-09T03:11:34.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="centos搭建科学上网">
+<meta name="twitter:description" content="搭建 Shadowsocks 服务安装组件123$ yum install m2crypto python-setuptools$ easy_install pip$ pip install shadowsocks 安装完成后配置服务器参数1$ vi  /etc/shadowsocks.json 写入如下配置:12345678910111213141516171819202122232425$ v">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://note.yidianwz.com/2015/06/04/centos搭建科学上网/">
+
+
+
+
+
+  <title>centos搭建科学上网 | 一点</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一点</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://note.yidianwz.com/2015/06/04/centos搭建科学上网/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chatYu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/11.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">centos搭建科学上网</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-06-04T17:05:34+08:00">
+                2015-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="搭建-Shadowsocks-服务"><a href="#搭建-Shadowsocks-服务" class="headerlink" title="搭建 Shadowsocks 服务"></a>搭建 Shadowsocks 服务</h1><h2 id="安装组件"><a href="#安装组件" class="headerlink" title="安装组件"></a>安装组件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yum install m2crypto python-setuptools</span><br><span class="line">$ easy_install pip</span><br><span class="line">$ pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<h3 id="安装完成后配置服务器参数"><a href="#安装完成后配置服务器参数" class="headerlink" title="安装完成后配置服务器参数"></a>安装完成后配置服务器参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vi  /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
+<h3 id="写入如下配置"><a href="#写入如下配置" class="headerlink" title="写入如下配置:"></a>写入如下配置:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ vi  /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;server_port&quot;:443,</span><br><span class="line">    &quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;password&quot;:&quot;123456&quot;,</span><br><span class="line">    &quot;timeout&quot;:300,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">    &quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br><span class="line">多端口的如下：</span><br><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;port_password&quot;: &#123;</span><br><span class="line">         &quot;443&quot;: &quot;443&quot;,</span><br><span class="line">         &quot;8888&quot;: &quot;8888&quot;</span><br><span class="line">     &#125;,</span><br><span class="line">    &quot;timeout&quot;:300,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">    &quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="其中server字段与local-address填写之前的IP-Address。password是自己用于连接这个shadow-socks的密码，自定义就好。"><a href="#其中server字段与local-address填写之前的IP-Address。password是自己用于连接这个shadow-socks的密码，自定义就好。" class="headerlink" title="其中server字段与local_address填写之前的IP Address。password是自己用于连接这个shadow socks的密码，自定义就好。"></a>其中server字段与local_address填写之前的IP Address。password是自己用于连接这个shadow socks的密码，自定义就好。</h4><h4 id="其他的不需要更改。"><a href="#其他的不需要更改。" class="headerlink" title="其他的不需要更改。"></a>其他的不需要更改。</h4><ul>
+<li>然后保存退出。</li>
+<li>vi 的命令: </li>
+<li>-按 “i” 进入编辑模式，</li>
+<li>编辑后按 “esc” 退出编辑模式，</li>
+<li>输入 “:wq” 保存退出vi。<h2 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h2>这一步主要是为了提高系统安全性。<h2 id="安装防火墙"><a href="#安装防火墙" class="headerlink" title="安装防火墙"></a>安装防火墙</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install firewalld</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="启动防火墙"><a href="#启动防火墙" class="headerlink" title="启动防火墙"></a>启动防火墙</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl start firewalld</span><br></pre></td></tr></table></figure>
+<h3 id="开启防火墙相应的端口"><a href="#开启防火墙相应的端口" class="headerlink" title="开启防火墙相应的端口"></a>开启防火墙相应的端口</h3><ul>
+<li><p>方法一(推荐)</p>
+<h4 id="端口号是你自己设置的端口"><a href="#端口号是你自己设置的端口" class="headerlink" title="端口号是你自己设置的端口"></a>端口号是你自己设置的端口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ firewall-cmd --permanent --zone=public --add-port=443/tcp</span><br><span class="line">$ firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二（麻烦，没必要） 新建文件ss.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vi /usr/lib/firewalld/services/ss.xml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>粘贴下面的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;service&gt;</span><br><span class="line">  &lt;short&gt;SS&lt;/short&gt;</span><br><span class="line">  &lt;description&gt;Shadowsocks port</span><br><span class="line">  &lt;/description&gt;</span><br><span class="line">  &lt;port protocol=&quot;tcp&quot; port=&quot;443&quot;/&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存退出。</p>
+</li>
+<li>开启端口 </li>
+<li>重启firewalld 服务，</li>
+<li>下面的ss是上述的文件的名字，区分大小写<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ firewall-cmd --permanent --add-service=ss</span><br><span class="line">$ firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="启动-Shadowsocks-服务"><a href="#启动-Shadowsocks-服务" class="headerlink" title="启动 Shadowsocks 服务"></a>启动 Shadowsocks 服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssserver -c /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
+<h3 id="如果想干点其他的实现后台运行，使用"><a href="#如果想干点其他的实现后台运行，使用" class="headerlink" title="如果想干点其他的实现后台运行，使用"></a>如果想干点其他的实现后台运行，使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nohup ssserver -c /etc/shadowsocks.json &amp;</span><br></pre></td></tr></table></figure>
+<p>连接<br>这样服务器就搭建好了。全平台的连接方法戳我。<br>PC连接<br>下载Shadow Socks客户端。SS加速器客户端下载<br>选择适合的版本，下载并解压运行。<br>填写信息:服务器地址，端口号，密码，加密方式与代理端口默认即可<br>SS信息填写<br>填写完之后点击确定，然后到托盘中右键选择开启”启用系统代理”。<br>iOS连接<br>在App Store下载Wingy。<br>填写信息:服务器，端口，密码，代理模式，加密方式默认即可。<br>Wingy信息填写<br>MacOS连接<br>官方教程<br>Android连接</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="chatYu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="chatYu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/12/hexo/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/04/centos防火墙命令（firewall管理）/" rel="prev" title="centos防火墙命令（firewall管理）">
+                centos防火墙命令（firewall管理） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/11.jpg" alt="chatYu">
+            
+              <p class="site-author-name" itemprop="name">chatYu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AntonySufer" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="dian_note@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建-Shadowsocks-服务"><span class="nav-number">1.</span> <span class="nav-text">搭建 Shadowsocks 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装组件"><span class="nav-number">1.1.</span> <span class="nav-text">安装组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装完成后配置服务器参数"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装完成后配置服务器参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入如下配置"><span class="nav-number">1.1.2.</span> <span class="nav-text">写入如下配置:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#其中server字段与local-address填写之前的IP-Address。password是自己用于连接这个shadow-socks的密码，自定义就好。"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">其中server字段与local_address填写之前的IP Address。password是自己用于连接这个shadow socks的密码，自定义就好。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他的不需要更改。"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">其他的不需要更改。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置防火墙"><span class="nav-number">1.2.</span> <span class="nav-text">配置防火墙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装防火墙"><span class="nav-number">1.3.</span> <span class="nav-text">安装防火墙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动防火墙"><span class="nav-number">1.4.</span> <span class="nav-text">启动防火墙</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开启防火墙相应的端口"><span class="nav-number">1.4.1.</span> <span class="nav-text">开启防火墙相应的端口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#端口号是你自己设置的端口"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">端口号是你自己设置的端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-Shadowsocks-服务"><span class="nav-number">1.4.2.</span> <span class="nav-text">启动 Shadowsocks 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果想干点其他的实现后台运行，使用"><span class="nav-number">1.4.3.</span> <span class="nav-text">如果想干点其他的实现后台运行，使用</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chatYu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+ 
+</body>
+</html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="科学上网,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="一点" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="如果你还在为无法访问国外网站而苦恼，如果你还在为寻找免费、高速的VPN而苦恼，如果你还在为怎么自己折腾Shadowsocks而苦恼，那么恭喜你，当你看到这篇文章，以上问题，将不再是问题，下面将教你，如何从零开始搭建属于自己的VPN，如何像访问国内网站那样迅速打开国外网站，这篇文章，就是大家的福音。 Shadowsocks特点省电，在电量查看里几乎看不到它的身影；支持开机自启动，且断网无影响，无需手">
+<meta name="keywords" content="科学上网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建科学上网和进程管理">
+<meta property="og:url" content="http://note.yidianwz.com/2017/07/09/搭建科学上网和进程管理/index.html">
+<meta property="og:site_name" content="一点">
+<meta property="og:description" content="如果你还在为无法访问国外网站而苦恼，如果你还在为寻找免费、高速的VPN而苦恼，如果你还在为怎么自己折腾Shadowsocks而苦恼，那么恭喜你，当你看到这篇文章，以上问题，将不再是问题，下面将教你，如何从零开始搭建属于自己的VPN，如何像访问国内网站那样迅速打开国外网站，这篇文章，就是大家的福音。 Shadowsocks特点省电，在电量查看里几乎看不到它的身影；支持开机自启动，且断网无影响，无需手">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-09T03:11:34.592Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建科学上网和进程管理">
+<meta name="twitter:description" content="如果你还在为无法访问国外网站而苦恼，如果你还在为寻找免费、高速的VPN而苦恼，如果你还在为怎么自己折腾Shadowsocks而苦恼，那么恭喜你，当你看到这篇文章，以上问题，将不再是问题，下面将教你，如何从零开始搭建属于自己的VPN，如何像访问国内网站那样迅速打开国外网站，这篇文章，就是大家的福音。 Shadowsocks特点省电，在电量查看里几乎看不到它的身影；支持开机自启动，且断网无影响，无需手">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://note.yidianwz.com/2017/07/09/搭建科学上网和进程管理/">
+
+
+
+
+
+  <title>搭建科学上网和进程管理 | 一点</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一点</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://note.yidianwz.com/2017/07/09/搭建科学上网和进程管理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chatYu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/11.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">搭建科学上网和进程管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T10:17:51+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果你还在为无法访问国外网站而苦恼，如果你还在为寻找免费、高速的VPN而苦恼，如果你还在为怎么自己折腾Shadowsocks而苦恼，那么恭喜你，当你看到这篇文章，以上问题，将不再是问题，下面将教你，如何从零开始搭建属于自己的VPN，如何像访问国内网站那样迅速打开国外网站，这篇文章，就是大家的福音。</p>
+<h4 id="Shadowsocks特点"><a href="#Shadowsocks特点" class="headerlink" title="Shadowsocks特点"></a>Shadowsocks特点</h4><p>省电，在电量查看里几乎看不到它的身影；<br>支持开机自启动，且断网无影响，无需手动重连，方便网络不稳定或者3G&amp;Wi-Fi频繁切换的小伙伴；<br>可使用自己的服务器，安全和速度的保证；<br>支持区分国内外流量，传统VPN在翻出墙外后访问国内站点会变慢；<br>可对应用设置单独代理，5.0之后的系统无需root。<br>我自己的感受：随机启动24小时后台运行，占内存10MB以内，基本不怎么耗电，跟人直接置身墙外使用手机的感受差不多。</p>
+<h4 id="Shadowsocks服务端搭建"><a href="#Shadowsocks服务端搭建" class="headerlink" title="Shadowsocks服务端搭建"></a>Shadowsocks服务端搭建</h4><p>服务端搭建的前提是你已经成功使用SecureCRT或putty或者xshell连接服务器，接下来的工作就是按照下面的步骤依次执行：</p>
+<h4 id="1-环境安装与更新"><a href="#1-环境安装与更新" class="headerlink" title="1.环境安装与更新"></a>1.环境安装与更新</h4><ul>
+<li>这一步，你需要做的是依次执行下面的每条命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">yum update</span><br><span class="line">yum install python-setuptools m2crypto supervisor</span><br><span class="line">easy_install pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-文件配置"><a href="#2-文件配置" class="headerlink" title="2.文件配置"></a>2.文件配置</h4><ul>
+<li><p>接下来需要编辑一下/etc/shadowsocks.json文件，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行上述命令后，此时的你已经进入文件编辑模式，这是你创建的一个新的空白文件，你需要做的事情就是将下面的内容粘贴后复制到shadowsocks.json文件里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;server_port&quot;:8388,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;password&quot;:&quot;yourpassword&quot;,</span><br><span class="line">    &quot;timeout&quot;:600,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接下来需要编辑一下/etc/supervisord.conf文件，命令如下：</p>
+</li>
+<li><p>SUPERVISORD配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>此时，你已进入supervisord.conf文件的编辑模式，这不是一个空白文件，里面有很多英文，请把下面的内容粘贴到文件尾部的空行处，然后保存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[program:shadowsocks]</span><br><span class="line">command=ssserver -c /etc/shadowsocks.json</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">user=root</span><br><span class="line">log_stderr=true</span><br><span class="line">logfile=/var/log/shadowsocks.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接下来需要编辑一下/etc/rc.local文件，请执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时，你进入了rc.local文件的编辑模式，这也不是一个空白文件，请把以下内容粘贴到文件中部的空白处，然后保存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service supervisord start （没执行）   //或者  /usr/bin/supervisord start （执行了）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后执行reboot命令或者vps的重启按钮，重启服务器。</p>
+</li>
+</ul>
+<p>SUPERVISORD管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/supervisord -c /etc/supervisord.conf</span><br></pre></td></tr></table></figure></p>
+<h4 id="Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下："><a href="#Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下：" class="headerlink" title="Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下："></a>Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下：</h4><ul>
+<li>supervisord，初始启动Supervisord，启动、管理配置中设置的进程。</li>
+<li>supervisorctl stop programxxx，停止某一个进程(programxxx)，programxxx为[program:blogdemon]里配置的值，这个示例就是blogdemon。</li>
+<li>supervisorctl start programxxx，启动某个进程</li>
+<li>supervisorctl restart programxxx，重启某个进程</li>
+<li>supervisorctl stop all，停止全部进程，注：start、restart、stop都不会载入最新的配置文件。</li>
+<li>supervisorctl reload，载入最新的配置文件，并按新的配置启动、管理所有进程。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="chatYu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="chatYu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/科学上网/" rel="tag"># 科学上网</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/html模仿支付密码输入/" rel="next" title="纯html模仿支付宝or微信 支付密码输入">
+                <i class="fa fa-chevron-left"></i> 纯html模仿支付宝or微信 支付密码输入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/10/vue项目打包适配和打包路径问题解决/" rel="prev" title="vue项目打包适配和打包路径问题解决">
+                vue项目打包适配和打包路径问题解决 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/11.jpg" alt="chatYu">
+            
+              <p class="site-author-name" itemprop="name">chatYu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AntonySufer" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="dian_note@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Shadowsocks特点"><span class="nav-number">1.</span> <span class="nav-text">Shadowsocks特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shadowsocks服务端搭建"><span class="nav-number">2.</span> <span class="nav-text">Shadowsocks服务端搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-环境安装与更新"><span class="nav-number">3.</span> <span class="nav-text">1.环境安装与更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-文件配置"><span class="nav-number">4.</span> <span class="nav-text">2.文件配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下："><span class="nav-number">5.</span> <span class="nav-text">Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chatYu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+ 
+</body>
+</html>

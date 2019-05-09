@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/11.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="小程序,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="一点" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="微信小程序之生成朋友圈分享图，了解一下？   Github项目地址:https://github.com/MrLeihe/Geek  前言 在开发小程序的过程中，你是否有将页面生成分享图并引导用户转发至朋友圈的需求？有，那就进来看看，应该是你想要的结果。  在分享上，就目前来说，小程序是不能直接分享到朋友圈的，微信官方只开放了分享到好友和群聊的 API。对于分享到朋友圈，现在大多数小程序所采用的方">
+<meta name="keywords" content="小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序分享朋友圈实现">
+<meta property="og:url" content="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/index.html">
+<meta property="og:site_name" content="一点">
+<meta property="og:description" content="微信小程序之生成朋友圈分享图，了解一下？   Github项目地址:https://github.com/MrLeihe/Geek  前言 在开发小程序的过程中，你是否有将页面生成分享图并引导用户转发至朋友圈的需求？有，那就进来看看，应该是你想要的结果。  在分享上，就目前来说，小程序是不能直接分享到朋友圈的，微信官方只开放了分享到好友和群聊的 API。对于分享到朋友圈，现在大多数小程序所采用的方">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/w1.png">
+<meta property="og:image" content="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/w2.jpg">
+<meta property="og:image" content="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/w3.jpg">
+<meta property="og:updated_time" content="2019-05-09T03:11:34.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信小程序分享朋友圈实现">
+<meta name="twitter:description" content="微信小程序之生成朋友圈分享图，了解一下？   Github项目地址:https://github.com/MrLeihe/Geek  前言 在开发小程序的过程中，你是否有将页面生成分享图并引导用户转发至朋友圈的需求？有，那就进来看看，应该是你想要的结果。  在分享上，就目前来说，小程序是不能直接分享到朋友圈的，微信官方只开放了分享到好友和群聊的 API。对于分享到朋友圈，现在大多数小程序所采用的方">
+<meta name="twitter:image" content="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/w1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/">
+
+
+
+
+
+  <title>微信小程序分享朋友圈实现 | 一点</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一点</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://note.yidianwz.com/2017/09/09/微信小程序分享朋友圈实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chatYu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/11.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一点">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信小程序分享朋友圈实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-09T10:43:50+08:00">
+                2017-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="微信小程序之生成朋友圈分享图，了解一下？"><a href="#微信小程序之生成朋友圈分享图，了解一下？" class="headerlink" title="微信小程序之生成朋友圈分享图，了解一下？"></a>微信小程序之生成朋友圈分享图，了解一下？</h3><p><img src="/2017/09/09/微信小程序分享朋友圈实现/w1.png" title="exp"> <br></p>
+<ul>
+<li>Github项目地址:<a href="https://github.com/MrLeihe/Geek" target="_blank" rel="noopener">https://github.com/MrLeihe/Geek</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p>在开发小程序的过程中，你是否有将页面生成分享图并引导用户转发至朋友圈的需求？有，那就进来看看，应该是你想要的结果。</p>
+</li>
+<li><p>在分享上，就目前来说，小程序是不能直接分享到朋友圈的，微信官方只开放了分享到好友和群聊的 API。对于分享到朋友圈，现在大多数小程序所采用的方式，就是根据不同的需求生成一张带小程序码的图片引导用户分享至朋友圈。</p>
+</li>
+<li><p>当然分享图也可以在后台生成，但是你懂得，基本没有那个后台大哥愿意为你去用代码写一张图出来，所以，咱们还是自给自足，😆。</p>
+</li>
+<li><p>欢迎大家使用微信扫描【组件库小程序码】（或者微信直接搜索组件库演示）查看运行效果</p>
+</li>
+</ul>
+<p><img src="/2017/09/09/微信小程序分享朋友圈实现/w2.jpg" title="exp"> <br></p>
+<p>生成分享图大致流程如下~<br><img src="/2017/09/09/微信小程序分享朋友圈实现/w3.jpg" title="exp"> <br></p>
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api/canvas/reference.html" target="_blank" rel="noopener">绘图相关 API 接口</a></li>
+</ul>
+<h4 id="关于生成二维码"><a href="#关于生成二维码" class="headerlink" title="关于生成二维码"></a>关于生成二维码</h4><ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api/qrcode.html" target="_blank" rel="noopener">微信官方获取二维码 API</a></li>
+<li>如果每一次分享的二维码不同，需要要生成 带参数的二维码 （采用接口B）</li>
+<li>生成的二维码需要下载到本地</li>
+<li>别忘了在 小程序微信公众平台后台 - 设置 -  开发设置 - 服务器域名 - downloadFile 合法域名 中添加域名</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="chatYu 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="chatYu 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/vue项目打包适配和打包路径问题解决/" rel="next" title="vue项目打包适配和打包路径问题解决">
+                <i class="fa fa-chevron-left"></i> vue项目打包适配和打包路径问题解决
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/09/node-egg后台项目搭建实现/" rel="prev" title="node egg 企业后台开发框架">
+                node egg 企业后台开发框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/11.jpg" alt="chatYu">
+            
+              <p class="site-author-name" itemprop="name">chatYu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AntonySufer" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="dian_note@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#微信小程序之生成朋友圈分享图，了解一下？"><span class="nav-number">1.</span> <span class="nav-text">微信小程序之生成朋友圈分享图，了解一下？</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number"></span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#官方文档"><span class="nav-number">1.</span> <span class="nav-text">官方文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于生成二维码"><span class="nav-number">1.1.</span> <span class="nav-text">关于生成二维码</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chatYu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+ 
+</body>
+</html>
